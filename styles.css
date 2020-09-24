@@ -1,0 +1,36 @@
+body {
+  background-color: white;
+}
+h1 {
+  color: blue;
+}
+p {
+  color: red;
+}
+
+/*td {
+  text-align: center;
+  padding: 5px;
+  border-width: thin;
+  border: #2196F3;
+  border-style: solid;
+}*/
+
+.fileWording {
+	font-weight: bold;
+	font-size: 18px;
+	padding-bottom: 5px;
+}
+
+.titleColumn {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}

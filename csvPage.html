@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <script type="text/javascript" src="papaparse.min.js"></script>
+  <script type="text/javascript" src="csvFile.js"></script>
+  <script type="text/javascript" src="userFile.js"></script>
+
+</head>
+<body>
+<div class=row>
+	<div class=titleColumn>
+		<img src="data:image/png;base64,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" alt="ELMO Logo" width="75%">
+	</div>
+	<div class=titleColumn>
+		<h1>CSV Comparison Tool</h1>
+	</div>
+</div>
+<div>
+	<div class=fileWording>
+	<label for="positionFile">Position File:</label>
+	<input type="file" id="positionFile" name="positionFile" accept=".csv">
+	</div><div class=fileWording>
+	<label for="locationFile">Location File:</label>
+	<input type="file" id="locationFile" name="locationFile" accept=".csv">
+	</div><div class=fileWording>
+	<label for="departmentFile">Department File:</label>
+	<input type="file" id="departmentFile" name="departmentFile" accept=".csv">
+	</div><div class=fileWording>
+	<label for="userFile">User File:</label>
+	<input type="file" id="userFile" name="userFile" accept=".csv">	
+	</div><div>
+	<button id="compareButton">Compare</button>
+	</div>
+	<div>
+	<table id="tbl-errors">
+	</table>
+	</div>
+</div>
+<script src="compare.js"></script>
+
+</body>
+</html>
