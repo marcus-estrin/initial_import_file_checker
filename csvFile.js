@@ -33,7 +33,7 @@ class csvFile{
 
 	drawErrors(){
 		this.results.errors.forEach(error => {
-			generateTableRows(this.table, error.row, this.fileIdentifier, error.type, error.message);
+			this.table.row.add({"Row Id" : error.row, "File": this.fileIdentifier, "Error Code": error.type, "Error": error.message}).draw();
 		});
 	}
 	
@@ -69,6 +69,9 @@ class csvFile{
 		}
 		if(this.fileIdentifier == "User" && headerFields.indexOf("identifier_location") == -1){
 			this.addError("Missing Identifier", "User File is missing the identifier_location column, locations will not be linked", 0, "FileSetup");
+		}
+		if(this.fileIdentifier == "User" && headerFields.indexOf("email") == -1){
+			this.addError("Missing Email", "User File is missing the email column, User records cannot be created without an email address", 0, "FileSetup");
 		}
 
 		//Checking for the unique file identifier

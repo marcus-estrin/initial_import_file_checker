@@ -5,6 +5,8 @@ class userFile extends csvFile{
 	identifierPositions = [];
 	identifierLocations = [];
 	identifierDepartments = [];
+	identifierEmails = "";
+	hasEmail = false;
 
 	
 	constructor (table, results, columnIdentifer){
@@ -25,6 +27,9 @@ class userFile extends csvFile{
 				arrayToLoop = this.identifierDepartments;
 				break;
 		}
+
+
+		//Check that a valid identifier column exists, in the position file this is identifier_position
 		for(let i = 0; i < arrayToLoop.length; i++){
 			if(identifierString.indexOf(arrayToLoop[i].identifier+";") == -1){
 				this.addError("Reference Error","Row "+(arrayToLoop[i].index+2)+" has an identifier_"+ sourceFile.toLowerCase() + " that is not in the " + sourceFile + " file.", (arrayToLoop[i].index+2), "Reference Error");
@@ -37,6 +42,10 @@ class userFile extends csvFile{
 		
 		//If the identifier isn't in the file then throw an error and then do nothing
 		if(this.checkForColumnIdentifiers(this.results.meta.fields)){
+			//Only look for Email once
+			if(this.results.meta.fields.indexOf("email") != -1){
+				this.hasEmail = true;
+			}
 			
 			//Loop through the results adding values to the identifier array if they are not there and are not blank
 			this.results.data.map((data,index) => {
@@ -60,6 +69,20 @@ class userFile extends csvFile{
 					//This means we only check for dependant/Parent identifiers which have not showed up yet!
 					if(this.uniqueIdentifiers.indexOf(dependantColumn) == -1){
 						this.dependantIdentifiers.push({index: index+2, identifier: dependantColumn});
+					}
+
+					//Check that the email column has a unique value
+					if(this.hasEmail){
+						let currentEmail = data["email"] + ";";
+						if(currentEmail == ";" || currentEmail == "undefined;"){
+							this.addError("Empty Email","Row "+(index+2)+" has no Email address. User's cannot be created without an email address.", (index+2), "Empty Email");
+						}else if(this.identifierEmails.indexOf(currentEmail) != -1){
+							this.addError("Duplicate Email","Row "+(index+2)+" has the same email as another row in your file", (index+2), "Duplicate Email");
+						}else{
+							this.identifierEmails += currentEmail;
+						}
+						console.log(currentEmail);
+						console.log(this.identifierEmails);
 					}
 
 					//This is the USER Specific section. If there are not other problems with the row then check for the position/location/department row and add to the areas
