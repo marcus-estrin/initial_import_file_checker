@@ -81,8 +81,6 @@ class userFile extends csvFile{
 						}else{
 							this.identifierEmails += currentEmail;
 						}
-						console.log(currentEmail);
-						console.log(this.identifierEmails);
 					}
 
 					//This is the USER Specific section. If there are not other problems with the row then check for the position/location/department row and add to the areas
